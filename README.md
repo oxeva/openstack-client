@@ -1,5 +1,5 @@
-OpenStack Client with Heat support
-==================================
+Docker OpenStack Client with Heat support
+=========================================
 
 [![Build Status](https://travis-ci.org/oxeva/openstack-client.svg?branch=master)](https://travis-ci.org/oxeva/openstack-client)
 
@@ -28,7 +28,7 @@ Source your openstack connection parameters from the openstack rc file you downl
 
 ```sh
 source ~/my/openstack.rc
-docker run --rm -it \
+docker run --rm \
     -e OS_AUTH_URL=$OS_AUTH_URL \
     -e OS_PROJECT_ID=$OS_PROJECT_ID \
     -e OS_PROJECT_NAME=$OS_PROJECT_NAME \
@@ -39,7 +39,7 @@ docker run --rm -it \
     -e OS_REGION_NAME=$OS_REGION_NAME \
     -e OS_INTERFACE=$OS_INTERFACE \
     -e OS_IDENTITY_API_VERSION=$OS_IDENTITY_API_VERSION \
-    oxeva/openstack-client stack list
+    oxeva/openstack-client openstack stack list
 ```
 
 We recommand You add it to your alias file :
