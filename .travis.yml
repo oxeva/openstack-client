@@ -1,0 +1,20 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build --iidfile iid .
+  - docker run -v $(pwd)/goss.yaml:/goss.yaml $(cat iid) sh -c 'curl -fsSL https://goss.rocks/install | sh; goss validate'
+
+after_success:
+  - LATEST_VERSION=$(docker run oxeva/openstack-client:latest openstack --version | awk '{print $2}')
+  - CURRENT_VERSION=$(docker run $(cat iid) openstack --version | awk '{print $2}')
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker tag $(cat iid) oxeva/openstack-client:$CURRENT_VERSION
+  - docker tag $(cat iid) oxeva/openstack-client:$(echo $CURRENT_VERSION | cut -d. -f 1,2)
+  - docker tag $(cat iid) oxeva/openstack-client:$(echo $CURRENT_VERSION | cut -d. -f 1)
+  - if [ "$(echo -e "$LATEST_VERSION\n$CURRENT_VERSION" | sort -V | head -n1)" == "$LATEST_VERSION" ]; then
+    docker tag $(cat iid) oxeva/openstack-client:latest
+    fi
+  - docker push oxeva/openstack-client
