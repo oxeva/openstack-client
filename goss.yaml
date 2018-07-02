@@ -1,6 +1,9 @@
 command:
-  openstack module list:
+  openstack --version:
     exit-status: 0
     stdout:
       - openstack
+  openstack module list:
+    exit-status: 0
+    stdout:
       - heat
