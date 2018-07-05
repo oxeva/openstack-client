@@ -5,7 +5,7 @@ services:
 
 script:
   - docker build --iidfile iid .
-  - docker run -v $(pwd)/goss.yaml:/goss.yaml $(cat iid) sh -c 'curl -fsSL https://goss.rocks/install | sh; goss validate'
+  - docker run -t -v $(pwd)/goss.yaml:/goss.yaml $(cat iid) sh -c 'curl -fsSL https://goss.rocks/install | sh; goss validate'
 
 after_success:
   - LATEST_VERSION=$(docker run oxeva/openstack-client:latest openstack --version | awk '{print $2}')
