@@ -1,7 +1,7 @@
 command:
   openstack --version:
     exit-status: 0
-    stderr:
+    stdout:
       - openstack
   openstack module list:
     exit-status: 0
